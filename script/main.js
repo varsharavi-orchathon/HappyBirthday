@@ -18,29 +18,37 @@ const fetchData = () => {
         }
 
         // Check if the iteration is over
-        // Run amimation if so
+        // Run animation if so
         if (dataArr.length === dataArr.indexOf(customData) + 1) {
           animationTimeline();
         }
       });
     });
 };
-document.addEventListener("DOMContentLoaded", function () {
-  const playBtn = document.getElementById("play-video");
-  const closeBtn = document.getElementById("close-video");
-  const videoPopup = document.getElementById("video-popup");
 
-  playBtn.addEventListener("click", function () {
-    videoPopup.classList.remove("hidden");
-  });
+// Create an audio element for background music
+const backgroundMusic = new Audio("music.mp3");
+backgroundMusic.loop = true; // Loop the music
+backgroundMusic.volume = 0.5; // Adjust volume if needed
 
-  closeBtn.addEventListener("click", function () {
-    videoPopup.classList.add("hidden");
-  });
-});
+// Function to start music
+const playMusic = () => {
+  backgroundMusic
+    .play()
+    .catch((error) => console.log("Autoplay blocked:", error));
+};
+
+// Function to stop music when needed
+const stopMusic = () => {
+  backgroundMusic.pause();
+  backgroundMusic.currentTime = 0;
+};
+
 // Animation Timeline
 const animationTimeline = () => {
-  // Spit chars that needs to be animated individually
+  playMusic(); // Start music when animation starts
+
+  // Spit chars that need to be animated individually
   const textBoxChars = document.getElementsByClassName("hbd-chatbox")[0];
   const hbd = document.getElementsByClassName("wish-hbd")[0];
 
@@ -100,7 +108,6 @@ const animationTimeline = () => {
     .from(".three", 0.7, {
       opacity: 0,
       y: 10,
-      // scale: 0.7
     })
     .to(
       ".three",
@@ -245,7 +252,6 @@ const animationTimeline = () => {
       {
         opacity: 0,
         y: -50,
-        // scale: 0.3,
         rotation: 150,
         skewX: "30deg",
         ease: Elastic.easeOut.config(1, 0.5),
@@ -292,9 +298,11 @@ const animationTimeline = () => {
     )
     .to(".six", 0.5, {
       opacity: 0,
-      y: 30,
+      scale: 0.5,
+      y: 10,
       zIndex: "-1",
     })
+
     .staggerFrom(".nine p", 1, ideaTextTrans, 1.2)
     .to(
       ".last-smile",
@@ -305,14 +313,7 @@ const animationTimeline = () => {
       "+=1"
     );
 
-  // tl.seek("currentStep");
-  // tl.timeScale(2);
-
-  // Restart Animation on click
-  const replyBtn = document.getElementById("replay");
-  replyBtn.addEventListener("click", () => {
-    tl.restart();
-  });
+  // Restart Animation and Music on click
 };
 
 // Run fetch and animation in sequence
