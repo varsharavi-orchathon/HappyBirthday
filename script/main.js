@@ -17,7 +17,6 @@ const fetchData = () => {
           }
         }
 
-        // Check if the iteration is over
         // Run animation if so
         if (dataArr.length === dataArr.indexOf(customData) + 1) {
           animationTimeline();
@@ -312,8 +311,6 @@ const animationTimeline = () => {
       },
       "+=1"
     );
-
-  // Restart Animation and Music on click
 };
 
 // Run fetch and animation in sequence
